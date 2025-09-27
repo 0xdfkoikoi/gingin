@@ -1,0 +1,31 @@
+
+{
+  "name": "toko-gangan-website",
+  "version": "1.0.0",
+  "description": "toko atau warung dengan teknologi AI sebagai toko assistant dengan fisi dan misi mengedukasi masyarakat.",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python -m http.server 8000",
+    "dev": "python -m http.server 8000"
+  },
+  "keywords": [
+    "warung",
+    "kopi",
+    "ai",
+    "gemini",
+    "chatbot",
+    "toko",
+    "GINGIN"
+  ],
+  "author": "TOKO GANGAN",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xdfkoikoi/gingin.git"
+  },
+  "homepage": "https://yourusername.github.io/wisdom-cafe-website/",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
