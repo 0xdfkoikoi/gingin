@@ -1,7 +1,7 @@
 
 const CONFIG = {
     // Backend endpoint for Cloudflare Worker (set your deployed URL)
-    WORKER_BASE_URL: 'https://domba.realganganadul.workers.dev',
+    WORKER_BASE_URL: 'https://gingin.realganganadul.workers.dev',
     
     // Cafe Information
     TOKO_NAME: 'TOKO GAN GAN',
