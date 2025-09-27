@@ -1,14 +1,14 @@
-# name = "gingin"
-# main = "src/index.js"
-# compatibility_date = "2025-09-27"
+name = "gingin"
+main = "src/index.js"
+compatibility_date = "2025-09-27"
 
-# [vars]
-# No plain-text API keys here. Use `wrangler secret put GEMINI_API_KEY`
+[vars]
+No plain-text API keys here. Use `wrangler secret put GEMINI_API_KEY`
 
-# name = "gingin"
-# main = "worker.js" # This line is not needed for static site deployment
-# compatibility_date = "2025-09-27"
+name = "gingin"
+main = "worker.js" # This line is not needed for static site deployment
+compatibility_date = "2025-09-27"
 
 
-# [site]
-# bucket = "."
+[site]
+bucket = "."
