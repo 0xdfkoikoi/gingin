@@ -39,3 +39,18 @@
 git clone https://github.com/0xdfkoikoi/gingin.git
 cd gingin
 npm install
+
+Configuration
+
+Edit config.js — fill in necessary keys, secrets, endpoints
+
+Update metadata.json if you want to change name, version, description
+
+Extend or modify cookbook.json to define the prompts / intents for your assistant
+
+Local Development
+
+You can test locally (if supported) or via Wrangler “preview”:
+
+wrangler dev
+
