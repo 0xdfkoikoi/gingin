@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeWisdom Cafe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles remain the same for aesthetics */
+        body {
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333;
+            background-image: url('http://raw.githubusercontent.com/0xdfkoikoi/gingin/refs/heads/main/img/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .glassmorphism-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            max-width: 900px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-toggle {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-icon span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-icon.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .menu-icon.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-icon.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .header-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+    .side-nav.open {
+            width: 250px;
+        }
+
+        .side-nav a {
+            padding: 15px 25px 15px 35px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: #f1f1f1;
+            display: block;
+            transition: 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        .side-nav a:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .side-nav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 5;
+            display: none;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .card-content {
+            display: grid;
+            grid-template-columns: 0.7fr 1.3fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .left-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .content-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .main-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            line-height: 1.1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            color: white;
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .description-text {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.6);
+            flex-shrink: 0;
+        }
+
+        .footer-button {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .outline-button {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .outline-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .filled-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .filled-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Assistant Section */
+        .assistant-section {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .chat-box {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-message {
+            margin-bottom: 8px;
+            line-height: 1.4;
+            padding: 8px 12px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .chat-message.user {
+            background: rgba(255, 255, 255, 0.15);
+            align-self: flex-end;
+            text-align: right;
+            color: #ffd27f;
+        }
+
+        .chat-message.ai {
+            background: rgba(255, 255, 255, 0.05);
+            align-self: flex-start;
+            text-align: left;
+            color: #ffffff;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .chat-input-container button {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .chat-input-container button:hover {
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+
+        @media (max-width: 768px) {
+            .card-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .left-section {
+                padding: 5px;
+            }
+
+            .main-title {
+                font-size: 2.5em;
+            }
+
+            .footer-text {
+                display: none;
+            }
+
+            .card-footer {
+                justify-content: center;
+            }
+
+            .side-nav.open {
+                width: 70%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .glassmorphism-card {
+                padding: 15px;
+            }
+
+            .card-header {
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .menu-toggle {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .footer-button {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+
+            .side-nav.open {
+                width: 75%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="menuOverlay" class="overlay"></div>
+
+    <div id="mySidenav" class="side-nav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Home</a>
+        <a href="#">Lihat Menu</a>
+        <a href="#">Gallery</a>
+        <a href="#">About Us</a>
+        <a href="https://wa.me/6283143087159">Contact</a>
+    </div>
+
+    <div class="container">
+        <div class="glassmorphism-card">
+            <header class="card-header">
+                <div class="menu-toggle" onclick="toggleNav()">
+                    <div class="menu-icon" id="menuIcon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="header-text">SELAMAT DATANG DI TOKO GANGAN</div>
+                </div>
+            </header>
+
+            <main class="card-content">
+                <div class="left-section">
+                    <img src="https://raw.githubusercontent.com/0xdfkoikoi/gingin/refs/heads/main/img/icn.png" alt="Green Plant" class="content-image">
+                </div>
+                <div class="right-section">
+                    <h2 class="main-title">EDUKASI<br>BELANJA<br>BEKERJASAMA</h2>
+                    <div class="description-section">
+                        <h2 class="subtitle">TOKO GANGAN LEBIH DARI SEKEDAR WARUNG</h2>
+                        <p class="description-text">TOKO GANGAN dengan teknologi AI memberikan anda kemudahan dalam menjawab pertanyaan mengenai informasi produk yang ada di toko gangan.</p>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Cafe Assistant Section -->
+            <section class="assistant-section">
+                <h3 class="subtitle">Tanya GIN GIN AI TOKO GANGAN AI Assistant</h3>
+                <div id="chat-box" class="chat-box">
+                    <!-- Removed static "under development" message. A welcome message is now added via JavaScript on load. -->
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="user-input" placeholder="Tulis pesan Anda..." />
+                    <button id="send-button">Send</button>
+                </div>
+            </section>
+
+            <footer class="card-footer">
+                <div class="footer-text">MENJADI LEBIH CERDAS</div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Configuration -->
+    <!-- Assuming config.js provides CONFIG.WORKER_BASE_URL and CONFIG.SYSTEM_PROMPT -->
+    <script src="config.js"></script>
+    
+    <script>
+        // Use system prompt from config
+        const systemPrompt = typeof CONFIG !== 'undefined' ? CONFIG.SYSTEM_PROMPT : "You are a friendly ai toko gangan assistant.";
+
+        function toggleNav() {
+            var sidenav = document.getElementById("mySidenav");
+            var overlay = document.getElementById("menuOverlay");
+            var menuIcon = document.getElementById("menuIcon");
+
+            if (sidenav.classList.contains("open")) {
+                sidenav.classList.remove("open");
+                overlay.classList.remove("active");
+                menuIcon.classList.remove("open"); // Reset hamburger icon
+            } else {
+                sidenav.classList.add("open");
+                overlay.classList.add("active");
+                menuIcon.classList.add("open"); // Animate hamburger to 'X'
+            }
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").classList.remove("open");
+            document.getElementById("menuOverlay").classList.remove("active");
+            document.getElementById("menuIcon").classList.remove("open"); // Reset hamburger icon
+        }
+
+        // Close nav when clicking outside on the overlay
+        document.getElementById("menuOverlay").onclick = function() {
+            closeNav();
+        };
+
+        function addMessage(message, sender, chatBox) {
+            const div = document.createElement("div");
+            div.className = `chat-message ${sender}`;
+            div.textContent = message;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return div;
+        }
+
+        // Attach event listeners and add welcome message
+        document.addEventListener('DOMContentLoaded', () => {
+            const sendButton = document.getElementById("send-button");
+            const userInput = document.getElementById("user-input");
+            const chatBox = document.getElementById("chat-box");
+            
+            // Initial Welcome Message
+            addMessage("Hallo! saya GIN GIN silahkan mau tanya sesuatu tentang produk di TOKO GANGAN atau bertanya tentang science?", "ai", chatBox);
+
+            if (sendButton) {
+                sendButton.addEventListener('click', sendMessage);
+            }
+
+            if (userInput) {
+                userInput.addEventListener("keypress", (event) => {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                        sendMessage();
+                    }
+                });
+            }
+        });
+
+        async function sendMessage() {
+            const userInput = document.getElementById("user-input");
+            const chatBox = document.getElementById("chat-box");
+            const userMessage = userInput.value.trim();
+
+            if (!userMessage) return;
+
+            // Show user message
+            addMessage(userMessage, "user", chatBox);
+
+            userInput.value = "";
+            
+            // Show loading placeholder
+            const loadingDiv = addMessage("GIN GIN SEDANG BERPIKIR...", "ai", chatBox);
+
+            try {
+                // Ensure CONFIG and WORKER_BASE_URL are defined before fetching
+                if (typeof CONFIG === 'undefined' || !CONFIG.WORKER_BASE_URL) {
+                     throw new Error("Configuration error: WORKER_BASE_URL is not set in config.js.");
+                }
+
+                const prompt = `${systemPrompt}\n\nPertanyaan pelanggan: ${userMessage}`;
+                
+                // Fetch call to your Cloudflare Worker
+                const res = await fetch(`${CONFIG.WORKER_BASE_URL}/generate`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt })
+                });
+
+                const json = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(json?.error || `API Request failed with status ${res.status}.`);
+                }
+                
+                const aiResponse = json.text || "";
+                
+                // If the response text is empty, show a specific message
+                loadingDiv.textContent = aiResponse || "I received a response from the Worker, but the content was empty. (Please check Worker log.)";
+                
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+            } catch (error) {
+                console.error('Error calling Worker API:', error);
+                
+                // Fallback to hardcoded responses in English if API call fails
+                const responses = {
+                    "roko": "roko di toko kami ada roko dari djarum, sampoerna, gudang garam, ktandg, classmild",
+                    "kopi": "Our flagship coffee is Domba Arabika, with a unique flavor and strong aroma. We also have Latte, Cappuccino, and Espresso.",
+                    "reservasi": "For reservations, please contact us via WhatsApp at +6283143087159. We will be happy to assist you.",
+                    "hours": "We are open daily from 9:00 AM to 9:00 PM. We look forward to your visit!",
+                    "default": `[API Error: ${error.message}]. I apologize! I can't connect to the AI service right now, but I can still answer basic questions.`
+                };
+
+                const lowerCaseMessage = userMessage.toLowerCase();
+                let fallbackResponse = responses["default"];
+
+                if (lowerCaseMessage.includes("menu")) {
+                    fallbackResponse = responses["menu"];
+                } else if (lowerCaseMessage.includes("coffee") || lowerCaseMessage.includes("kopi")) {
+                    fallbackResponse = responses["kopi"];
+                } else if (lowerCaseMessage.includes("reservation") || lowerCaseMessage.includes("reservasi")) {
+                    fallbackResponse = responses["reservasi"];
+                } else if (lowerCaseMessage.includes("hours") || lowerCaseMessage.includes("jam")) {
+                    fallbackResponse = responses["hours"];
+                }
+
+                loadingDiv.textContent = fallbackResponse;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
